@@ -124,6 +124,65 @@ export type Database = {
         }
         Relationships: []
       }
+      resume_enhancements: {
+        Row: {
+          category_scores: Json
+          created_at: string
+          error_message: string | null
+          id: string
+          issues: Json
+          job_description: string | null
+          keyword_stuffing_warnings: string[]
+          missing_keywords: string[]
+          mode: string
+          overall_score: number | null
+          resume_id: string
+          rewrite_suggestions: Json
+          status: string
+          user_id: string
+        }
+        Insert: {
+          category_scores?: Json
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          issues?: Json
+          job_description?: string | null
+          keyword_stuffing_warnings?: string[]
+          missing_keywords?: string[]
+          mode?: string
+          overall_score?: number | null
+          resume_id: string
+          rewrite_suggestions?: Json
+          status?: string
+          user_id: string
+        }
+        Update: {
+          category_scores?: Json
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          issues?: Json
+          job_description?: string | null
+          keyword_stuffing_warnings?: string[]
+          missing_keywords?: string[]
+          mode?: string
+          overall_score?: number | null
+          resume_id?: string
+          rewrite_suggestions?: Json
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "resume_enhancements_resume_id_fkey"
+            columns: ["resume_id"]
+            isOneToOne: false
+            referencedRelation: "resumes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       resumes: {
         Row: {
           ai_feedback: Json | null
