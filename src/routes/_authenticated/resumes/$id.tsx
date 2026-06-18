@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowLeft, Loader2, AlertTriangle, RefreshCw } from "lucide-react";
+import { ArrowLeft, Loader2, AlertTriangle, RefreshCw, Sparkles } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 
@@ -63,10 +63,17 @@ function ResumeDetail() {
           <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">{resume.title}</h1>
           <p className="text-sm text-muted-foreground mt-1">{resume.file_name}</p>
         </div>
-        <Button variant="outline" onClick={handleReanalyze} disabled={isAnalyzing}>
-          {isAnalyzing ? <Loader2 className="size-4 animate-spin" /> : <RefreshCw className="size-4" />}
-          Re-analyze
-        </Button>
+        <div className="flex gap-2">
+          <Button asChild>
+            <Link to="/resumes/$id/enhance" params={{ id }}>
+              <Sparkles className="size-4" /> Enhance with AI
+            </Link>
+          </Button>
+          <Button variant="outline" onClick={handleReanalyze} disabled={isAnalyzing}>
+            {isAnalyzing ? <Loader2 className="size-4 animate-spin" /> : <RefreshCw className="size-4" />}
+            Re-analyze
+          </Button>
+        </div>
       </div>
 
       {isAnalyzing && (
