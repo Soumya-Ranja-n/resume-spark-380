@@ -195,9 +195,9 @@ function ResultsView({
 }) {
   const score = enhancement.overall_score ?? 0;
   const band = bandFor(score);
-  const scores = (enhancement.category_scores ?? {}) as CategoryScores;
-  const issues = ((enhancement.issues ?? []) as unknown as EnhancementIssue[]) ?? [];
-  const rewrites = ((enhancement.rewrite_suggestions ?? []) as unknown as RewriteSuggestion[]) ?? [];
+  const scores = (enhancement.category_scores as unknown as CategoryScores) ?? ({} as CategoryScores);
+  const issues = (enhancement.issues as unknown as EnhancementIssue[]) ?? [];
+  const rewrites = (enhancement.rewrite_suggestions as unknown as RewriteSuggestion[]) ?? [];
   const missing = (enhancement.missing_keywords ?? []) as string[];
   const stuffing = (enhancement.keyword_stuffing_warnings ?? []) as string[];
   const mode = (enhancement.mode as "general" | "targeted") ?? "general";

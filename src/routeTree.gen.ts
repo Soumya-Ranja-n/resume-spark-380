@@ -18,6 +18,7 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as AuthenticatedApplicationsRouteImport } from './routes/_authenticated/applications'
 import { Route as AuthenticatedResumesIndexRouteImport } from './routes/_authenticated/resumes/index'
 import { Route as AuthenticatedResumesIdRouteImport } from './routes/_authenticated/resumes/$id'
+import { Route as AuthenticatedResumesIdEnhanceRouteImport } from './routes/_authenticated/resumes/$id/enhance'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -66,6 +67,12 @@ const AuthenticatedResumesIdRoute = AuthenticatedResumesIdRouteImport.update({
   path: '/resumes/$id',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedResumesIdEnhanceRoute =
+  AuthenticatedResumesIdEnhanceRouteImport.update({
+    id: '/enhance',
+    path: '/enhance',
+    getParentRoute: () => AuthenticatedResumesIdRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -74,8 +81,9 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/settings': typeof AuthenticatedSettingsRoute
-  '/resumes/$id': typeof AuthenticatedResumesIdRoute
+  '/resumes/$id': typeof AuthenticatedResumesIdRouteWithChildren
   '/resumes/': typeof AuthenticatedResumesIndexRoute
+  '/resumes/$id/enhance': typeof AuthenticatedResumesIdEnhanceRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -84,8 +92,9 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/settings': typeof AuthenticatedSettingsRoute
-  '/resumes/$id': typeof AuthenticatedResumesIdRoute
+  '/resumes/$id': typeof AuthenticatedResumesIdRouteWithChildren
   '/resumes': typeof AuthenticatedResumesIndexRoute
+  '/resumes/$id/enhance': typeof AuthenticatedResumesIdEnhanceRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -96,8 +105,9 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
-  '/_authenticated/resumes/$id': typeof AuthenticatedResumesIdRoute
+  '/_authenticated/resumes/$id': typeof AuthenticatedResumesIdRouteWithChildren
   '/_authenticated/resumes/': typeof AuthenticatedResumesIndexRoute
+  '/_authenticated/resumes/$id/enhance': typeof AuthenticatedResumesIdEnhanceRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -110,6 +120,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/resumes/$id'
     | '/resumes/'
+    | '/resumes/$id/enhance'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -120,6 +131,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/resumes/$id'
     | '/resumes'
+    | '/resumes/$id/enhance'
   id:
     | '__root__'
     | '/'
@@ -131,6 +143,7 @@ export interface FileRouteTypes {
     | '/_authenticated/settings'
     | '/_authenticated/resumes/$id'
     | '/_authenticated/resumes/'
+    | '/_authenticated/resumes/$id/enhance'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -204,15 +217,36 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedResumesIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/resumes/$id/enhance': {
+      id: '/_authenticated/resumes/$id/enhance'
+      path: '/enhance'
+      fullPath: '/resumes/$id/enhance'
+      preLoaderRoute: typeof AuthenticatedResumesIdEnhanceRouteImport
+      parentRoute: typeof AuthenticatedResumesIdRoute
+    }
   }
 }
+
+interface AuthenticatedResumesIdRouteChildren {
+  AuthenticatedResumesIdEnhanceRoute: typeof AuthenticatedResumesIdEnhanceRoute
+}
+
+const AuthenticatedResumesIdRouteChildren: AuthenticatedResumesIdRouteChildren =
+  {
+    AuthenticatedResumesIdEnhanceRoute: AuthenticatedResumesIdEnhanceRoute,
+  }
+
+const AuthenticatedResumesIdRouteWithChildren =
+  AuthenticatedResumesIdRoute._addFileChildren(
+    AuthenticatedResumesIdRouteChildren,
+  )
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedApplicationsRoute: typeof AuthenticatedApplicationsRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
-  AuthenticatedResumesIdRoute: typeof AuthenticatedResumesIdRoute
+  AuthenticatedResumesIdRoute: typeof AuthenticatedResumesIdRouteWithChildren
   AuthenticatedResumesIndexRoute: typeof AuthenticatedResumesIndexRoute
 }
 
@@ -221,7 +255,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
-  AuthenticatedResumesIdRoute: AuthenticatedResumesIdRoute,
+  AuthenticatedResumesIdRoute: AuthenticatedResumesIdRouteWithChildren,
   AuthenticatedResumesIndexRoute: AuthenticatedResumesIndexRoute,
 }
 
