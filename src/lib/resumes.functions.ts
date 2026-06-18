@@ -100,7 +100,7 @@ export const analyzeResume = createServerFn({ method: "POST" })
         .update({
           status: "analyzed",
           ai_score: score,
-          ai_feedback: feedback as unknown as Record<string, unknown>,
+          ai_feedback: feedback as any,
         })
         .eq("id", data.resume_id);
 
@@ -119,7 +119,7 @@ export const analyzeResume = createServerFn({ method: "POST" })
         .from("resumes")
         .update({
           status: "failed",
-          ai_feedback: { error: message } as unknown as Record<string, unknown>,
+          ai_feedback: { error: message } as any,
         })
         .eq("id", data.resume_id);
       throw new Error(message);
