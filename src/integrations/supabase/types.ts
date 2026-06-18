@@ -14,16 +14,205 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      job_applications: {
+        Row: {
+          applied_date: string | null
+          company_name: string
+          created_at: string
+          id: string
+          job_title: string
+          job_url: string | null
+          notes: string | null
+          resume_id: string | null
+          status: Database["public"]["Enums"]["application_status"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          applied_date?: string | null
+          company_name: string
+          created_at?: string
+          id?: string
+          job_title: string
+          job_url?: string | null
+          notes?: string | null
+          resume_id?: string | null
+          status?: Database["public"]["Enums"]["application_status"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          applied_date?: string | null
+          company_name?: string
+          created_at?: string
+          id?: string
+          job_title?: string
+          job_url?: string | null
+          notes?: string | null
+          resume_id?: string | null
+          status?: Database["public"]["Enums"]["application_status"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "job_applications_resume_id_fkey"
+            columns: ["resume_id"]
+            isOneToOne: false
+            referencedRelation: "resumes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notifications: {
+        Row: {
+          created_at: string
+          id: string
+          is_read: boolean
+          link_path: string | null
+          message: string
+          title: string
+          type: Database["public"]["Enums"]["notification_type"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          link_path?: string | null
+          message: string
+          title: string
+          type: Database["public"]["Enums"]["notification_type"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          link_path?: string | null
+          message?: string
+          title?: string
+          type?: Database["public"]["Enums"]["notification_type"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          full_name: string | null
+          id: string
+          subscription_plan: Database["public"]["Enums"]["subscription_plan"]
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          full_name?: string | null
+          id: string
+          subscription_plan?: Database["public"]["Enums"]["subscription_plan"]
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          subscription_plan?: Database["public"]["Enums"]["subscription_plan"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      resumes: {
+        Row: {
+          ai_feedback: Json | null
+          ai_score: number | null
+          created_at: string
+          file_name: string
+          file_url: string
+          id: string
+          status: Database["public"]["Enums"]["resume_status"]
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          ai_feedback?: Json | null
+          ai_score?: number | null
+          created_at?: string
+          file_name: string
+          file_url: string
+          id?: string
+          status?: Database["public"]["Enums"]["resume_status"]
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          ai_feedback?: Json | null
+          ai_score?: number | null
+          created_at?: string
+          file_name?: string
+          file_url?: string
+          id?: string
+          status?: Database["public"]["Enums"]["resume_status"]
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "user" | "premium" | "admin"
+      application_status:
+        | "saved"
+        | "applied"
+        | "interviewing"
+        | "offer"
+        | "rejected"
+        | "withdrawn"
+      notification_type:
+        | "resume_analyzed"
+        | "job_status_changed"
+        | "reminder"
+        | "system"
+      resume_status: "uploaded" | "analyzing" | "analyzed" | "failed"
+      subscription_plan: "free" | "premium"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +339,24 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["user", "premium", "admin"],
+      application_status: [
+        "saved",
+        "applied",
+        "interviewing",
+        "offer",
+        "rejected",
+        "withdrawn",
+      ],
+      notification_type: [
+        "resume_analyzed",
+        "job_status_changed",
+        "reminder",
+        "system",
+      ],
+      resume_status: ["uploaded", "analyzing", "analyzed", "failed"],
+      subscription_plan: ["free", "premium"],
+    },
   },
 } as const
