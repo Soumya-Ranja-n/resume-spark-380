@@ -15,6 +15,11 @@ const SaveDraftInput = z.object({
   edited_text: z.string().max(40000),
 });
 const GetTextInput = z.object({ resume_id: z.string().uuid() });
+const AutoEnhanceInput = z.object({
+  resume_id: z.string().uuid(),
+  current_text: z.string().min(20).max(40000),
+  job_description: z.string().max(20000).optional().nullable(),
+});
 
 const SYSTEM_PROMPT = `You are an ATS resume scoring assistant. Score the following resume text against the provided rubric. Your output MUST be valid JSON with no markdown formatting, no code fences, no preamble, and no explanation outside the JSON object.
 
