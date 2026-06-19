@@ -18,6 +18,7 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as AuthenticatedApplicationsRouteImport } from './routes/_authenticated/applications'
 import { Route as AuthenticatedResumesIndexRouteImport } from './routes/_authenticated/resumes/index'
 import { Route as AuthenticatedResumesIdRouteImport } from './routes/_authenticated/resumes/$id'
+import { Route as AuthenticatedResumeEnhancerResumeIdRouteImport } from './routes/_authenticated/resume-enhancer/$resumeId'
 import { Route as AuthenticatedResumesIdEnhanceRouteImport } from './routes/_authenticated/resumes/$id/enhance'
 
 const AuthRoute = AuthRouteImport.update({
@@ -67,6 +68,12 @@ const AuthenticatedResumesIdRoute = AuthenticatedResumesIdRouteImport.update({
   path: '/resumes/$id',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedResumeEnhancerResumeIdRoute =
+  AuthenticatedResumeEnhancerResumeIdRouteImport.update({
+    id: '/resume-enhancer/$resumeId',
+    path: '/resume-enhancer/$resumeId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedResumesIdEnhanceRoute =
   AuthenticatedResumesIdEnhanceRouteImport.update({
     id: '/enhance',
@@ -81,6 +88,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/settings': typeof AuthenticatedSettingsRoute
+  '/resume-enhancer/$resumeId': typeof AuthenticatedResumeEnhancerResumeIdRoute
   '/resumes/$id': typeof AuthenticatedResumesIdRouteWithChildren
   '/resumes/': typeof AuthenticatedResumesIndexRoute
   '/resumes/$id/enhance': typeof AuthenticatedResumesIdEnhanceRoute
@@ -92,6 +100,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/settings': typeof AuthenticatedSettingsRoute
+  '/resume-enhancer/$resumeId': typeof AuthenticatedResumeEnhancerResumeIdRoute
   '/resumes/$id': typeof AuthenticatedResumesIdRouteWithChildren
   '/resumes': typeof AuthenticatedResumesIndexRoute
   '/resumes/$id/enhance': typeof AuthenticatedResumesIdEnhanceRoute
@@ -105,6 +114,7 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/_authenticated/resume-enhancer/$resumeId': typeof AuthenticatedResumeEnhancerResumeIdRoute
   '/_authenticated/resumes/$id': typeof AuthenticatedResumesIdRouteWithChildren
   '/_authenticated/resumes/': typeof AuthenticatedResumesIndexRoute
   '/_authenticated/resumes/$id/enhance': typeof AuthenticatedResumesIdEnhanceRoute
@@ -118,6 +128,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/notifications'
     | '/settings'
+    | '/resume-enhancer/$resumeId'
     | '/resumes/$id'
     | '/resumes/'
     | '/resumes/$id/enhance'
@@ -129,6 +140,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/notifications'
     | '/settings'
+    | '/resume-enhancer/$resumeId'
     | '/resumes/$id'
     | '/resumes'
     | '/resumes/$id/enhance'
@@ -141,6 +153,7 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard'
     | '/_authenticated/notifications'
     | '/_authenticated/settings'
+    | '/_authenticated/resume-enhancer/$resumeId'
     | '/_authenticated/resumes/$id'
     | '/_authenticated/resumes/'
     | '/_authenticated/resumes/$id/enhance'
@@ -217,6 +230,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedResumesIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/resume-enhancer/$resumeId': {
+      id: '/_authenticated/resume-enhancer/$resumeId'
+      path: '/resume-enhancer/$resumeId'
+      fullPath: '/resume-enhancer/$resumeId'
+      preLoaderRoute: typeof AuthenticatedResumeEnhancerResumeIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/resumes/$id/enhance': {
       id: '/_authenticated/resumes/$id/enhance'
       path: '/enhance'
@@ -246,6 +266,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+  AuthenticatedResumeEnhancerResumeIdRoute: typeof AuthenticatedResumeEnhancerResumeIdRoute
   AuthenticatedResumesIdRoute: typeof AuthenticatedResumesIdRouteWithChildren
   AuthenticatedResumesIndexRoute: typeof AuthenticatedResumesIndexRoute
 }
@@ -255,6 +276,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+  AuthenticatedResumeEnhancerResumeIdRoute:
+    AuthenticatedResumeEnhancerResumeIdRoute,
   AuthenticatedResumesIdRoute: AuthenticatedResumesIdRouteWithChildren,
   AuthenticatedResumesIndexRoute: AuthenticatedResumesIndexRoute,
 }
