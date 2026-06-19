@@ -65,7 +65,7 @@ function ResumeDetail() {
         </div>
         <div className="flex gap-2">
           <Button asChild>
-            <Link to="/resumes/$id/enhance" params={{ id }}>
+            <Link to="/resume-enhancer/$resumeId" params={{ resumeId: id }}>
               <Sparkles className="size-4" /> Enhance with AI
             </Link>
           </Button>
