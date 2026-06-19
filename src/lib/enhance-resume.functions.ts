@@ -15,6 +15,11 @@ const SaveDraftInput = z.object({
   edited_text: z.string().max(40000),
 });
 const GetTextInput = z.object({ resume_id: z.string().uuid() });
+const AutoEnhanceInput = z.object({
+  resume_id: z.string().uuid(),
+  current_text: z.string().min(20).max(40000),
+  job_description: z.string().max(20000).optional().nullable(),
+});
 
 const SYSTEM_PROMPT = `You are an ATS resume scoring assistant. Score the following resume text against the provided rubric. Your output MUST be valid JSON with no markdown formatting, no code fences, no preamble, and no explanation outside the JSON object.
 
@@ -279,5 +284,68 @@ export const getResumeText = createServerFn({ method: "POST" })
       source: "file" as const,
       edited_text_updated_at: null,
       title: resume.title,
+    };
+  });
+
+const AUTO_ENHANCE_PROMPT = `You are an ATS resume rewriting assistant. You receive a resume (plain text) and optionally a job description. You rewrite the resume to maximize ATS compatibility and recruiter readability WITHOUT fabricating ANY content.
+
+ABSOLUTE RULES — NO FABRICATION:
+- NEVER invent skills, tools, certifications, employers, job titles, dates, degrees, metrics, or accomplishments not present in the source.
+- You MAY: tighten wording, lead bullets with strong action verbs, remove first-person pronouns, normalize date formats, reorder to reverse chronological, fix section headings to standard names (Summary, Experience, Education, Skills, Projects, Certifications), split run-on bullets, remove filler, deduplicate, and ensure each bullet is 15-25 words when source detail allows.
+- You MUST NOT add a metric unless the number is literally present in the source. If a bullet lacks a metric and the source has no number, leave it unmeasured — do not invent one.
+- Preserve the user's true experience. Identity-preserving rewrite only.
+
+OUTPUT FORMAT:
+Return ONLY valid JSON, no markdown, no preamble:
+{
+  "enhanced_text": "the full rewritten resume as plain text with clear section headings on their own lines (CONTACT, SUMMARY, EXPERIENCE, EDUCATION, SKILLS, etc.) and bullets prefixed with '- '",
+  "change_summary": ["short bullet describing each meaningful change, max 8 items"]
+}`;
+
+export const autoEnhanceResume = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) => AutoEnhanceInput.parse(input))
+  .handler(async ({ data }) => {
+    const apiKey = process.env.LOVABLE_API_KEY;
+    if (!apiKey) throw new Error("LOVABLE_API_KEY not configured");
+
+    const jd = (data.job_description ?? "").trim();
+    const userContent = jd
+      ? `JOB DESCRIPTION (align tone and surface relevant existing skills — do NOT add skills not already present):\n${jd}\n\n---\n\nCURRENT RESUME:\n${data.current_text}`
+      : `No job description provided. Rewrite generically for ATS best practices.\n\nCURRENT RESUME:\n${data.current_text}`;
+
+    const aiResp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
+      body: JSON.stringify({
+        model: "google/gemini-2.5-flash",
+        response_format: { type: "json_object" },
+        messages: [
+          { role: "system", content: AUTO_ENHANCE_PROMPT },
+          { role: "user", content: userContent },
+        ],
+      }),
+    });
+
+    if (!aiResp.ok) {
+      const errText = await aiResp.text().catch(() => "");
+      if (aiResp.status === 429) throw new Error("AI rate limit reached. Try again in a minute.");
+      if (aiResp.status === 402) throw new Error("AI credits exhausted. Add credits in workspace settings.");
+      throw new Error(`AI error ${aiResp.status}: ${errText.slice(0, 200)}`);
+    }
+
+    const json = await aiResp.json();
+    const content: string = json.choices?.[0]?.message?.content ?? "";
+    let parsed: { enhanced_text?: string; change_summary?: string[] };
+    try {
+      parsed = JSON.parse(content);
+    } catch {
+      throw new Error("AI returned non-JSON response");
+    }
+    const enhanced_text = (parsed.enhanced_text ?? "").trim();
+    if (!enhanced_text) throw new Error("AI returned empty rewrite");
+    return {
+      enhanced_text,
+      change_summary: Array.isArray(parsed.change_summary) ? parsed.change_summary.slice(0, 8) : [],
     };
   });

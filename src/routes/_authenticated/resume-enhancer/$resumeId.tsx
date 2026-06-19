@@ -28,6 +28,7 @@ import { LiveScoreCard } from "@/components/enhancer/live-score-card";
 import { PathToTarget, CeilingNote } from "@/components/enhancer/path-to-target";
 import { RewriteCards } from "@/components/enhancer/rewrite-cards";
 import { MissingKeywordsCloud } from "@/components/enhancer/missing-keywords-cloud";
+import { AutoEnhanceDialog } from "@/components/enhancer/auto-enhance-dialog";
 
 export const Route = createFileRoute("/_authenticated/resume-enhancer/$resumeId")({
   head: () => ({ meta: [{ title: "Resume Enhancer — ResumeTracker AI" }] }),
@@ -207,6 +208,25 @@ function ResumeEnhancerPage() {
     }
   }
 
+  async function handleAutoEnhanceAccept(enhancedText: string) {
+    setSections(splitIntoSections(enhancedText));
+    setEditedSinceAnalysis(new Set(SECTION_ORDER));
+    try {
+      await saveDraft({ data: { resume_id: resumeId, edited_text: enhancedText } });
+      setSavedAt(new Date().toISOString());
+      const res = await startFn({
+        data: {
+          resume_id: resumeId,
+          job_description: jobDescription.trim() || null,
+          edited_text: enhancedText,
+        },
+      });
+      setCurrentId(res.enhancement_id);
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Re-analysis failed");
+    }
+  }
+
   if (loading) {
     return (
       <div className="p-6 space-y-4">
@@ -232,12 +252,18 @@ function ResumeEnhancerPage() {
           <h1 className="text-2xl md:text-3xl font-semibold tracking-tight mt-2">Resume Enhancer</h1>
           <p className="text-sm text-muted-foreground mt-1">{title}</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           {savedAt && (
             <span className="text-xs text-muted-foreground">
               Draft saved {formatRelative(savedAt)}
             </span>
           )}
+          <AutoEnhanceDialog
+            resumeId={resumeId}
+            currentText={joinSections(sections)}
+            jobDescription={jobDescription}
+            onAccept={handleAutoEnhanceAccept}
+          />
           <Button variant="outline" size="sm" onClick={handleSaveDraft} disabled={savingDraft}>
             {savingDraft ? <Loader2 className="size-4 animate-spin" /> : <Save className="size-4" />}
             Save draft
