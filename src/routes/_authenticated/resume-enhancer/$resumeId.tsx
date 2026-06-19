@@ -252,12 +252,18 @@ function ResumeEnhancerPage() {
           <h1 className="text-2xl md:text-3xl font-semibold tracking-tight mt-2">Resume Enhancer</h1>
           <p className="text-sm text-muted-foreground mt-1">{title}</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           {savedAt && (
             <span className="text-xs text-muted-foreground">
               Draft saved {formatRelative(savedAt)}
             </span>
           )}
+          <AutoEnhanceDialog
+            resumeId={resumeId}
+            currentText={joinSections(sections)}
+            jobDescription={jobDescription}
+            onAccept={handleAutoEnhanceAccept}
+          />
           <Button variant="outline" size="sm" onClick={handleSaveDraft} disabled={savingDraft}>
             {savingDraft ? <Loader2 className="size-4 animate-spin" /> : <Save className="size-4" />}
             Save draft
