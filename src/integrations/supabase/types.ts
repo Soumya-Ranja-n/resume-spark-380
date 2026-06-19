@@ -138,6 +138,8 @@ export type Database = {
           overall_score: number | null
           resume_id: string
           rewrite_suggestions: Json
+          score_ceiling_note: string | null
+          source: string
           status: string
           user_id: string
         }
@@ -154,6 +156,8 @@ export type Database = {
           overall_score?: number | null
           resume_id: string
           rewrite_suggestions?: Json
+          score_ceiling_note?: string | null
+          source?: string
           status?: string
           user_id: string
         }
@@ -170,6 +174,8 @@ export type Database = {
           overall_score?: number | null
           resume_id?: string
           rewrite_suggestions?: Json
+          score_ceiling_note?: string | null
+          source?: string
           status?: string
           user_id?: string
         }
@@ -188,6 +194,8 @@ export type Database = {
           ai_feedback: Json | null
           ai_score: number | null
           created_at: string
+          edited_text: string | null
+          edited_text_updated_at: string | null
           file_name: string
           file_url: string
           id: string
@@ -200,6 +208,8 @@ export type Database = {
           ai_feedback?: Json | null
           ai_score?: number | null
           created_at?: string
+          edited_text?: string | null
+          edited_text_updated_at?: string | null
           file_name: string
           file_url: string
           id?: string
@@ -212,6 +222,8 @@ export type Database = {
           ai_feedback?: Json | null
           ai_score?: number | null
           created_at?: string
+          edited_text?: string | null
+          edited_text_updated_at?: string | null
           file_name?: string
           file_url?: string
           id?: string
