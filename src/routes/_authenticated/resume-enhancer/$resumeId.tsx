@@ -28,6 +28,7 @@ import { LiveScoreCard } from "@/components/enhancer/live-score-card";
 import { PathToTarget, CeilingNote } from "@/components/enhancer/path-to-target";
 import { RewriteCards } from "@/components/enhancer/rewrite-cards";
 import { MissingKeywordsCloud } from "@/components/enhancer/missing-keywords-cloud";
+import { AutoEnhanceDialog } from "@/components/enhancer/auto-enhance-dialog";
 
 export const Route = createFileRoute("/_authenticated/resume-enhancer/$resumeId")({
   head: () => ({ meta: [{ title: "Resume Enhancer — ResumeTracker AI" }] }),
