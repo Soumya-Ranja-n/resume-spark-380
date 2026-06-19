@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, FileText, Briefcase, Bell, Settings, Sparkles } from "lucide-react";
+import { LayoutDashboard, FileText, Briefcase, Bell, Settings, Sparkles, Wand2 } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -14,6 +14,7 @@ import {
 const items = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
   { title: "Resumes", url: "/resumes", icon: FileText },
+  { title: "Resume Enhancer", url: "/resume-enhancer", icon: Wand2 },
   { title: "Applications", url: "/applications", icon: Briefcase },
   { title: "Notifications", url: "/notifications", icon: Bell },
   { title: "Settings", url: "/settings", icon: Settings },
