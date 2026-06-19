@@ -208,6 +208,25 @@ function ResumeEnhancerPage() {
     }
   }
 
+  async function handleAutoEnhanceAccept(enhancedText: string) {
+    setSections(splitIntoSections(enhancedText));
+    setEditedSinceAnalysis(new Set(SECTION_ORDER));
+    try {
+      await saveDraft({ data: { resume_id: resumeId, edited_text: enhancedText } });
+      setSavedAt(new Date().toISOString());
+      const res = await startFn({
+        data: {
+          resume_id: resumeId,
+          job_description: jobDescription.trim() || null,
+          edited_text: enhancedText,
+        },
+      });
+      setCurrentId(res.enhancement_id);
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Re-analysis failed");
+    }
+  }
+
   if (loading) {
     return (
       <div className="p-6 space-y-4">
