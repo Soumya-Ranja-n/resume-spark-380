@@ -1,8 +1,10 @@
 User-agent: *
 Allow: /
-Disallow: /auth
 Disallow: /dashboard
 Disallow: /resumes
 Disallow: /applications
 Disallow: /notifications
 Disallow: /settings
+Disallow: /resume-enhancer
+
+Sitemap: https://resume-spark-380.lovable.app/sitemap.xml

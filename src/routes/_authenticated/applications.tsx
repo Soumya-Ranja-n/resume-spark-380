@@ -19,7 +19,16 @@ import { updateApplicationStatus } from "@/lib/applications.functions";
 import type { Tables } from "@/integrations/supabase/types";
 
 export const Route = createFileRoute("/_authenticated/applications")({
-  head: () => ({ meta: [{ title: "Applications — ResumeTracker AI" }] }),
+  head: () => ({
+    meta: [
+      { title: "Applications — ResumeTracker AI" },
+      { name: "description", content: "Track every role you're interested in with a kanban board — drag applications between saved, applied, interviewing, offer, and rejected." },
+      { property: "og:title", content: "Applications — ResumeTracker AI" },
+      { property: "og:description", content: "Track every role you're interested in with a kanban board — drag applications between saved, applied, interviewing, offer, and rejected." },
+      { property: "og:url", content: "https://resume-spark-380.lovable.app/applications" },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
   component: ApplicationsPage,
 });
 

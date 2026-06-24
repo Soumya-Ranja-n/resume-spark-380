@@ -17,7 +17,16 @@ import { updateProfile } from "@/lib/profile.functions";
 import type { Tables } from "@/integrations/supabase/types";
 
 export const Route = createFileRoute("/_authenticated/settings")({
-  head: () => ({ meta: [{ title: "Settings — ResumeTracker AI" }] }),
+  head: () => ({
+    meta: [
+      { title: "Settings — ResumeTracker AI" },
+      { name: "description", content: "Manage your profile, appearance preferences, and account settings." },
+      { property: "og:title", content: "Settings — ResumeTracker AI" },
+      { property: "og:description", content: "Manage your profile, appearance preferences, and account settings." },
+      { property: "og:url", content: "https://resume-spark-380.lovable.app/settings" },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
   component: SettingsPage,
 });
 
