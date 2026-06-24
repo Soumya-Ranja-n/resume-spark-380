@@ -13,7 +13,16 @@ import { cn } from "@/lib/utils";
 import type { Tables } from "@/integrations/supabase/types";
 
 export const Route = createFileRoute("/_authenticated/notifications")({
-  head: () => ({ meta: [{ title: "Notifications — ResumeTracker AI" }] }),
+  head: () => ({
+    meta: [
+      { title: "Notifications — ResumeTracker AI" },
+      { name: "description", content: "Stay on top of resume analysis updates and application reminders in one feed." },
+      { property: "og:title", content: "Notifications — ResumeTracker AI" },
+      { property: "og:description", content: "Stay on top of resume analysis updates and application reminders in one feed." },
+      { property: "og:url", content: "https://resume-spark-380.lovable.app/notifications" },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
   component: NotificationsPage,
 });
 

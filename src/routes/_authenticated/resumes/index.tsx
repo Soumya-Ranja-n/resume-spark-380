@@ -12,7 +12,16 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import type { Tables } from "@/integrations/supabase/types";
 
 export const Route = createFileRoute("/_authenticated/resumes/")({
-  head: () => ({ meta: [{ title: "Resumes — ResumeTracker AI" }] }),
+  head: () => ({
+    meta: [
+      { title: "Resumes — ResumeTracker AI" },
+      { name: "description", content: "Upload and manage your resumes — get an AI score and tailored feedback in under a minute." },
+      { property: "og:title", content: "Resumes — ResumeTracker AI" },
+      { property: "og:description", content: "Upload and manage your resumes — get an AI score and tailored feedback in under a minute." },
+      { property: "og:url", content: "https://resume-spark-380.lovable.app/resumes" },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
   component: ResumesPage,
 });
 

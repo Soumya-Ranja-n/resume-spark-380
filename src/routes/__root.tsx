@@ -78,6 +78,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "ResumeTracker AI — AI Resume Feedback & Job Tracker" },
       { name: "description", content: "Upload your resume for instant AI feedback and track every job application from saved to offer." },
+      { property: "og:site_name", content: "ResumeTracker AI" },
       { property: "og:title", content: "ResumeTracker AI — AI Resume Feedback & Job Tracker" },
       { property: "og:description", content: "Upload your resume for instant AI feedback and track every job application from saved to offer." },
       { property: "og:type", content: "website" },
@@ -92,6 +93,28 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Organization",
+              name: "ResumeTracker AI",
+              url: "https://resume-spark-380.lovable.app",
+              description: "AI-powered resume feedback and job application tracker.",
+            },
+            {
+              "@type": "WebSite",
+              name: "ResumeTracker AI",
+              url: "https://resume-spark-380.lovable.app",
+              description: "Upload your resume for instant AI feedback and track every job application from saved to offer.",
+            },
+          ],
+        }),
+      },
     ],
   }),
   shellComponent: RootShell,

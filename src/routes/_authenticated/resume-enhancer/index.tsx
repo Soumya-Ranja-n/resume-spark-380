@@ -8,7 +8,16 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/_authenticated/resume-enhancer/")({
-  head: () => ({ meta: [{ title: "Resume Enhancer — ResumeTracker AI" }] }),
+  head: () => ({
+    meta: [
+      { title: "Resume Enhancer — ResumeTracker AI" },
+      { name: "description", content: "Pick a resume to rewrite with AI — boost your estimated ATS compatibility score with targeted fixes." },
+      { property: "og:title", content: "Resume Enhancer — ResumeTracker AI" },
+      { property: "og:description", content: "Pick a resume to rewrite with AI — boost your estimated ATS compatibility score with targeted fixes." },
+      { property: "og:url", content: "https://resume-spark-380.lovable.app/resume-enhancer" },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
   component: ResumeEnhancerIndex,
 });
 

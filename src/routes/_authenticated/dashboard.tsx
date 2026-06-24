@@ -14,7 +14,16 @@ import { ResumeUpload } from "@/components/resumes/resume-upload";
 import type { Tables } from "@/integrations/supabase/types";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
-  head: () => ({ meta: [{ title: "Dashboard — ResumeTracker AI" }] }),
+  head: () => ({
+    meta: [
+      { title: "Dashboard — ResumeTracker AI" },
+      { name: "description", content: "Your job-search overview: weekly activity, application status breakdown, and quick resume uploads." },
+      { property: "og:title", content: "Dashboard — ResumeTracker AI" },
+      { property: "og:description", content: "Your job-search overview: weekly activity, application status breakdown, and quick resume uploads." },
+      { property: "og:url", content: "https://resume-spark-380.lovable.app/dashboard" },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
   component: Dashboard,
 });
 

@@ -20,8 +20,12 @@ export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
       { title: "Sign in — ResumeTracker AI" },
-      { name: "description", content: "Sign in or create an account to track your job applications with AI." },
+      { name: "description", content: "Sign in or create your free ResumeTracker AI account to get AI resume feedback and track job applications." },
+      { property: "og:title", content: "Sign in — ResumeTracker AI" },
+      { property: "og:description", content: "Sign in or create your free ResumeTracker AI account to get AI resume feedback and track job applications." },
+      { property: "og:url", content: "https://resume-spark-380.lovable.app/auth" },
     ],
+    links: [{ rel: "canonical", href: "https://resume-spark-380.lovable.app/auth" }],
   }),
   component: AuthPage,
 });
@@ -84,7 +88,7 @@ function AuthPage() {
         <span className="font-semibold tracking-tight">ResumeTracker AI</span>
       </header>
 
-      <div className="flex-1 flex items-center justify-center px-4 py-12">
+      <main className="flex-1 flex items-center justify-center px-4 py-12">
         <div className="w-full max-w-md animate-fade-in">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-semibold tracking-tight text-balance">
@@ -157,7 +161,7 @@ function AuthPage() {
             By continuing you agree to our terms and privacy policy.
           </p>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
