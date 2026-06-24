@@ -1,0 +1,10 @@
+# ResumeTracker AI
+
+> AI-powered resume feedback and a clean kanban for tracking every job application from saved to offer.
+
+ResumeTracker AI helps job seekers improve their resumes with an estimated ATS compatibility score, actionable rewrite suggestions, and a built-in pipeline for organizing applications.
+
+## Pages
+
+- [Home](/): Product overview and entry point.
+- [Sign in](/auth): Sign in or create a free account.
