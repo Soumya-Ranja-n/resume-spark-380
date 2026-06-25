@@ -59,7 +59,7 @@ export function AdvancedEnhancerPanel({
 
   function applyNormalized(acceptedIds: Set<string>) {
     if (acceptedIds.size === 0) return;
-    const next = applyProposals(sections, proposals, acceptedIds);
+    const next = applyProposals(sections, proposals, acceptedIds) as ResumeSection[];
     onApplySections(next);
     toast.success(`Applied ${acceptedIds.size} formatting fix${acceptedIds.size === 1 ? "" : "es"}.`);
   }
