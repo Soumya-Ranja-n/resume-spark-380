@@ -312,6 +312,13 @@ function ResumeEnhancerPage() {
                       </Badge>
                     )}
                   </div>
+                  <SectionFixButton
+                    sectionKey={key}
+                    sectionLabel={sec.label}
+                    content={sec.content}
+                    jobDescription={jobDescription}
+                    onAccept={(rewritten) => updateSection(key, rewritten)}
+                  />
                 </div>
                 <SectionEditor
                   value={sec.content}
