@@ -360,6 +360,16 @@ function ResumeEnhancerPage() {
 
           {current?.score_ceiling_note && <CeilingNote note={current.score_ceiling_note} />}
 
+          <AdvancedEnhancerPanel
+            sections={sections}
+            missingKeywords={current?.missing_keywords ?? []}
+            jobDescription={jobDescription}
+            onApplySections={(next) => {
+              setSections(next);
+              setEditedSinceAnalysis(new Set(SECTION_ORDER));
+            }}
+          />
+
           {score != null && (
             <Tabs defaultValue="path">
               <TabsList className="grid grid-cols-4 w-full">
