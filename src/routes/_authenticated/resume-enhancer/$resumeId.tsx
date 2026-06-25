@@ -29,6 +29,8 @@ import { PathToTarget, CeilingNote } from "@/components/enhancer/path-to-target"
 import { RewriteCards } from "@/components/enhancer/rewrite-cards";
 import { MissingKeywordsCloud } from "@/components/enhancer/missing-keywords-cloud";
 import { AutoEnhanceDialog } from "@/components/enhancer/auto-enhance-dialog";
+import { AdvancedEnhancerPanel } from "@/components/enhancer/advanced-enhancer-panel";
+import { SectionFixButton } from "@/components/enhancer/section-fix-button";
 
 export const Route = createFileRoute("/_authenticated/resume-enhancer/$resumeId")({
   head: () => ({ meta: [{ title: "Resume Enhancer — ResumeTracker AI" }] }),
@@ -310,6 +312,13 @@ function ResumeEnhancerPage() {
                       </Badge>
                     )}
                   </div>
+                  <SectionFixButton
+                    sectionKey={key}
+                    sectionLabel={sec.label}
+                    content={sec.content}
+                    jobDescription={jobDescription}
+                    onAccept={(rewritten) => updateSection(key, rewritten)}
+                  />
                 </div>
                 <SectionEditor
                   value={sec.content}
@@ -350,6 +359,16 @@ function ResumeEnhancerPage() {
           )}
 
           {current?.score_ceiling_note && <CeilingNote note={current.score_ceiling_note} />}
+
+          <AdvancedEnhancerPanel
+            sections={sections}
+            missingKeywords={current?.missing_keywords ?? []}
+            jobDescription={jobDescription}
+            onApplySections={(next) => {
+              setSections(next);
+              setEditedSinceAnalysis(new Set(SECTION_ORDER));
+            }}
+          />
 
           {score != null && (
             <Tabs defaultValue="path">
